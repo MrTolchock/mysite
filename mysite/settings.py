@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "personal",
     "sbbdelay",
+    "sbbdelay2",
 ]
 
 MIDDLEWARE = [
