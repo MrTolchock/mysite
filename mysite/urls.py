@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^', include("personal.urls")),
     url(r'^sbbdelay/', include("sbbdelay.urls")),
     url(r'^sbbdelay2/', include("sbbdelay2.urls")),
+    url(r'^sbbdelay3/', include("sbbdelay3.urls")),
 ]

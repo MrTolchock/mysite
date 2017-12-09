@@ -1,0 +1,34 @@
+{% extends "personal/header.html" %}
+
+{% block content %}
+
+<table width=350>
+  <thead>
+    <tr>
+      <th>Station</th>
+      <th>Timetable</th>
+      <th>Delay</th>
+    </tr>
+  </thead>
+
+  {% for trip in trips.values %}
+  <tbody>
+      <tr>
+        <td>{{trip.from}}</td>
+        <td>{{trip.dep|date:"H:i"}}</td>
+        <td>{{trip.dep_delay}}</td>
+      </tr>
+      <tr>
+        <td>{{trip.to}}</td>
+        <td>{{trip.arr|date:"H:i"}}</td>
+        <td>{{trip.arr_delay}}</td>
+      </tr>
+      <tr>
+        <td><p></p></td>
+      </tr>
+  </tbody>
+  {% endfor %}
+
+</table>
+
+{% endblock %}

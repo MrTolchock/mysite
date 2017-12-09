@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "personal",
     "sbbdelay",
     "sbbdelay2",
+    "sbbdelay3",
 ]
 
 MIDDLEWARE = [
