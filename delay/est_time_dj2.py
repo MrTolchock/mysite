@@ -65,12 +65,20 @@ def sbbtrip():
         for board in trip.findall(".//ns:LegBoard", ns):
             tripinfo["from"] = board.find("*/ns:Text", ns).text
             tripinfo["dep"] = board.find("*/ns:TimetabledTime", ns).text
-            tripinfo["dep_est"] = board.find("*/ns:EstimatedTime", ns).text
+            try:
+                tripinfo["dep_est"] = board.find("*/ns:EstimatedTime", ns).text
+            except:
+                tripinfo["dep_est"] = tripinfo["dep"]
+                print("-----no estimated departure-----")
 
         for alight in trip.findall(".//ns:LegAlight", ns):
             tripinfo["to"] = alight.find("*/ns:Text", ns).text
             tripinfo["arr"] = alight.find("*/ns:TimetabledTime", ns).text
-            tripinfo["arr_est"] = alight.find("*/ns:EstimatedTime", ns).text
+            try:
+                tripinfo["arr_est"] = alight.find("*/ns:EstimatedTime", ns).text
+            except:
+                tripinfo["arr_est"] = tripinfo["arr"]
+                print("-----no estimated arrival-----")
 
         trips.append(tripinfo.copy())
 
