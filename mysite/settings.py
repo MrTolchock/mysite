@@ -41,9 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "personal",
-    "sbbdelay",
-    "sbbdelay2",
-    "sbbdelay3",
+    "delay",
+    "history",
 ]
 
 MIDDLEWARE = [
