@@ -2,27 +2,26 @@
 
 {% block content %}
 
-<h5>Next trains from Wiedikon to Oerlikon</h5>
+<h3>Wiedikon to Oerlikon</h3>
+<p>&nbsp;</p>
+<h5>Next trains</h5>
 
 <table>
-  <thead>
-    <tr>
-      <th width=100>Departure</th>
-      <th width=90>Delay</th>
-      <th width=70>Train</th>
-    </tr>
-  </thead>
+  <tr>
+    <th width=100>Departure</th>
+    <th width=90>Delay</th>
+    <th width=70>Train</th>
+  </tr>
 
   {% for trip in trips.values %}
-  <tbody>
-      <tr>
-        <td>{{trip.dep|date:"H:i"}}</td>
-        <td>{{trip.dep_delay}}</td>
-        <td>{{trip.line}}</td>
-      </tr>
-  </tbody>
+    <tbody>
+        <tr>
+          <td>{{trip.dep|date:"H:i"}}</td>
+          <td>{{trip.dep_delay}}</td>
+          <td>{{trip.line}}</td>
+        </tr>
+    </tbody>
   {% endfor %}
-
 </table>
 
 <p>&nbsp;</p>

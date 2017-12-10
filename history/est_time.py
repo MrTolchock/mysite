@@ -36,7 +36,7 @@ def sbbtrip():
                         </LocationRef>
                     </Destination>
                     <Params>
-                        <NumberOfResults>3</NumberOfResults>
+                        <NumberOfResults>7</NumberOfResults>
                         <IncludeTrackSections>false</IncludeTrackSections>
                         <IncludeLegProjection>true</IncludeLegProjection>
                         <IncludeIntermediateStops>false</IncludeIntermediateStops>
@@ -54,7 +54,7 @@ def sbbtrip():
     pretty_xml_as_string = xml.toprettyxml()
     #print(pretty_xml_as_string)
 
-    #read from XML tree and get rid of namespace "xmlns"
+    #read from XML tree
     tree = ET.fromstring(data.text)
     ns = {'ns': 'http://www.vdv.de/trias'}
 
@@ -102,13 +102,16 @@ def sbbtrip():
         trip["arr_delay"] = trip["arr_est"] - trip["arr"]
 
 
-    #turn results to Django-readable dictionary
+    #turn results to Django dictionary
     count = 0
     tripdic = dict()
+    now = datetime.now().astimezone(timezone("Europe/Zurich"))
 
     for element in trips:
-        count = count + 1
-        tripdic["trip"+str(count)] = element
+        print(element["dep_est"])
+        if element["dep_est"] >= now:
+            count = count + 1
+            tripdic["trip"+str(count)] = element
 
     print(tripdic)
 
