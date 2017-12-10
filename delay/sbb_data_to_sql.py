@@ -73,7 +73,7 @@ for train in js["records"]:
     info.append(uid)
 
     #print(info, len(info))
-    cur.execute("INSERT OR REPLACE INTO history_train VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", info)
+    cur.execute("INSERT OR REPLACE INTO delay_train VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", info)
 
     conn.commit()
 
