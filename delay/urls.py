@@ -1,6 +1,9 @@
 from django.conf.urls import url
-from . import views
+from django.urls import path
+from django.views.generic import ListView
+from .views import DelayList
+
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    path("", DelayList.as_view()),
 ]

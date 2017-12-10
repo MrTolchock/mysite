@@ -20,5 +20,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include("personal.urls")),
     url(r'^delay/', include("delay.urls")),
-    url(r'^history/', include("history.urls")),
 ]

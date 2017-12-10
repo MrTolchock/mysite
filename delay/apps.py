@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class Sbbdelay2Config(AppConfig):
-    name = 'sbbdelay2'
+class Sbbdelay3Config(AppConfig):
+    name = 'sbbdelay3'

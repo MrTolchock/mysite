@@ -2,7 +2,7 @@ def sbbtrip():
 
     import requests
     from xml.etree import ElementTree as ET
-    from datetime import datetime
+    from datetime import datetime, timedelta
     from pytz import timezone
     import xml.dom.minidom
     #8503011 stands for Zuerich Wiedikon, 8503006 for Oerlikon
@@ -36,7 +36,7 @@ def sbbtrip():
                         </LocationRef>
                     </Destination>
                     <Params>
-                        <NumberOfResults>3</NumberOfResults>
+                        <NumberOfResults>7</NumberOfResults>
                         <IncludeTrackSections>false</IncludeTrackSections>
                         <IncludeLegProjection>true</IncludeLegProjection>
                         <IncludeIntermediateStops>false</IncludeIntermediateStops>
@@ -54,7 +54,7 @@ def sbbtrip():
     pretty_xml_as_string = xml.toprettyxml()
     #print(pretty_xml_as_string)
 
-    #read from XML tree and get rid of namespace "xmlns"
+    #read from XML tree
     tree = ET.fromstring(data.text)
     ns = {'ns': 'http://www.vdv.de/trias'}
 
@@ -80,6 +80,9 @@ def sbbtrip():
                 tripinfo["arr_est"] = tripinfo["arr"]
                 print("-----no estimated arrival-----")
 
+        for service in trip.findall(".//ns:PublishedLineName", ns):
+            tripinfo["line"] = "S" + service.find("./ns:Text", ns).text
+
         trips.append(tripinfo.copy())
 
 
@@ -99,16 +102,19 @@ def sbbtrip():
         trip["arr_delay"] = trip["arr_est"] - trip["arr"]
 
 
-    #turn results to Django-readable dictionary
+    #turn results to Django dictionary
     count = 0
     tripdic = dict()
+    now = datetime.now().astimezone(timezone("Europe/Zurich"))
 
     for element in trips:
-        count = count + 1
-        tripdic["trip"+str(count)] = element
+        if element["dep_est"] >= now - timedelta(minutes=1):
+            if count < 4:
+                count = count + 1
+                tripdic["trip"+str(count)] = element
 
     print(tripdic)
 
     return tripdic
 
-#sbbtrip()
+sbbtrip()

@@ -2,33 +2,48 @@
 
 {% block content %}
 
-<table width=350>
-  <thead>
-    <tr>
-      <th>Station</th>
-      <th>Timetable</th>
-      <th>Delay</th>
-    </tr>
-  </thead>
+<h3>Wiedikon to Oerlikon</h3>
+<p>&nbsp;</p>
+<h5>Next trains</h5>
+
+<table>
+  <tr>
+    <th width=100>Departure</th>
+    <th width=90>Delay</th>
+    <th width=70>Train</th>
+  </tr>
 
   {% for trip in trips.values %}
-  <tbody>
-      <tr>
-        <td>{{trip.from}}</td>
-        <td>{{trip.dep|date:"H:i"}}</td>
-        <td>{{trip.dep_delay}}</td>
-      </tr>
-      <tr>
-        <td>{{trip.to}}</td>
-        <td>{{trip.arr|date:"H:i"}}</td>
-        <td>{{trip.arr_delay}}</td>
-      </tr>
-      <tr>
-        <td><p></p></td>
-      </tr>
-  </tbody>
+    <tbody>
+        <tr>
+          <td>{{trip.dep|date:"H:i"}}</td>
+          <td>{{trip.dep_delay}}</td>
+          <td>{{trip.line}}</td>
+        </tr>
+    </tbody>
   {% endfor %}
+</table>
 
+<p>&nbsp;</p>
+
+
+<h5>History</h5>
+
+<table>
+    <tr>
+        <th width=100>Departure</th>
+        <th width=90>Delay</th>
+        <th width=70>Train</th>
+        <th width=100>Date</th>
+    </tr>
+    {% for item in object_list %}
+    <tr>
+        <td>{{ item.abfahrtszeit|date:"H:i" }}</td>
+        <td>{{ item.ab_delay }}</td>
+        <td>{{ item.linien_text }}</td>
+        <td>{{ item.abfahrtszeit|date:"d.m.Y" }} </td>
+    </tr>
+    {% endfor %}
 </table>
 
 {% endblock %}
