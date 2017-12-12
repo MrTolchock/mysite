@@ -10,7 +10,7 @@ class DelayList(ListView):
     def get_queryset(self):
         next_trains = sbbtrip()
         next_train = next_trains["trip1"]["dep"]
-        return Train.objects.order_by("betriebstag").filter(abfahrtszeit__contains=next_train.time())
+        return Train.objects.order_by("-betriebstag").filter(abfahrtszeit__contains=next_train.time())
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
