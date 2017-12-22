@@ -26,22 +26,53 @@
 
 <p>&nbsp;</p>
 
-
 <h5>History</h5>
+
+<table>
+  <tr>
+    <th>Average</th>
+  </tr>
+
+  {% for number in average.values %}
+    <tbody>
+        <tr>
+          <td>All:</td>
+          <td>{{number}}</td>
+        </tr>
+    </tbody>
+  {% endfor %}
+
+  {% for number in aver.values %}
+    <tbody>
+        <tr>
+          <td>Same week day: {{number|date:"i:s"}}</td>
+        </tr>
+    </tbody>
+  {% endfor %}
+
+  <tbody>
+      <tr>
+        <td>Same week day: {{aver.avg_day}}</td>
+      </tr>
+  </tbody>
+
+</table>
+
+<p>&nbsp;</p>
 
 <table>
     <tr>
         <th width=100>Departure</th>
         <th width=90>Delay</th>
         <th width=70>Train</th>
-        <th width=100>Date</th>
+        <th width=200>Date</th>
     </tr>
     {% for item in object_list %}
     <tr>
         <td>{{ item.abfahrtszeit|date:"H:i" }}</td>
         <td>{{ item.ab_delay }}</td>
         <td>{{ item.linien_text }}</td>
-        <td>{{ item.abfahrtszeit|date:"d.m.Y" }} </td>
+        <td>{{ item.abfahrtszeit|date:"D, d.m.Y" }} </td>
     </tr>
     {% endfor %}
 </table>
@@ -49,5 +80,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
+
+<pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre>
 
 {% endblock %}

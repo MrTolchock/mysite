@@ -16,15 +16,16 @@ ctx.verify_mode = ssl.CERT_NONE
 
 url = "https://data.sbb.ch/api/records/1.0/search/?dataset=actual-data-sbb-previous-day&rows=1000&facet=linien_text&facet=faellt_aus_tf&facet=bpuic&facet=ankunftszeit&facet=an_prognose&facet=an_prognose_status&facet=ab_prognose_status&facet=abfahrtsverspatung&refine.bpuic=8503011"
 
-
 uh = urllib.request.urlopen(url, context=ctx)
 data = uh.read().decode()
 js = json.loads(data)
 #print(json.dumps(js["records"], indent=4, sort_keys=True))
 
+
 # Initiate stats
 results_received = js["nhits"]
 empty_fields = 0
+
 
 # Connect to Django SQL DB
 path = "../db.sqlite3"
@@ -32,24 +33,31 @@ conn = sqlite3.connect(path)
 cur = conn.cursor()
 
 
-# Save data into list and then to SQL
+# Save and write data
+
+# Define all items
 items = ["fahrt_bezeichner", "bpuic", "haltestellen_name", "linien_text", "betriebstag", "ankunftszeit", "an_prognose", "an_prognose_status", "abfahrtszeit", "ab_prognose", "ab_prognose_status", "faellt_aus_tf"]
 
+# Define time zone function
 def tzone(utc_dt):
     return utc_dt.astimezone(timezone("Europe/Zurich"))
 
+# Save all items to list and SQL
 for train in js["records"]:
+
+    # Save data to list and prepare
     info = list()
 
     for item in items:
         infoline = train["fields"].get(item)
 
+        # Count skipped fields
         if infoline==None:
-            #print("skipped: -----", train["fields"])
             empty_fields = empty_fields + 1
             info.append(infoline)
             continue
 
+        # Adjust date time fields
         if item in ["ankunftszeit", "an_prognose", "abfahrtszeit", "ab_prognose"]:
             infoline = datetime.strptime(str(infoline), "%Y-%m-%dT%H:%M:%S")
             infoline = tzone(infoline)
@@ -58,19 +66,33 @@ for train in js["records"]:
             infoline = datetime.strptime(str(infoline), "%Y-%m-%d")
             infoline = tzone(infoline)
 
+        # Turn faellt aus into integer
+        if item in ["faellt_aus_tf"]:
+            if infoline == "false":
+                infoline = 0
+            else:
+                infoline = 1
+
         info.append(infoline)
 
     # Calculate delay
     try:
         ab_delay = info[9] - info[8]
-        info.append(str(ab_delay))
+        info.append(int(ab_delay.total_seconds()))
     except:
         ab_delay = None
+        print("Delay turned to None")
         info.append(ab_delay)
 
-    # Create unique ID
-    uid = str(train["fields"]["fahrt_bezeichner"]) + "-" + str(train["fields"]["betriebstag"])
+
+    # Create unique ID as an integer
+    uid = str(train["fields"]["fahrt_bezeichner"]) + str(train["fields"]["betriebstag"])
+    uid = uid.replace("85:11:", "")
+    uid = uid.replace(":00", "")
+    uid = uid.replace("-", "")
+    uid = int(uid)
     info.append(uid)
+
 
     #print(info, len(info))
     cur.execute("INSERT OR REPLACE INTO delay_train VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", info)
