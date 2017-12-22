@@ -17,11 +17,22 @@ class DelayList(ListView):
         context = super().get_context_data(**kwargs) #Call base implementation first to get a context
         context["trips"] = sbbtrip()
         next_train = context["trips"]["trip1"]["dep"]
-        avg_all = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).aggregate(Avg('ab_delay'))
-        context["average"] = avg_all
 
-        avg_day = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).filter(betriebstag__week_day=5).aggregate(Avg('ab_delay'))
-        avg_day = datetime.fromtimestamp(avg_day['ab_delay__avg'])#.strftime('%M:%S')
-        context["aver"] = {"avg_day": avg_day}
+        # Average delay
+        avg_all = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).aggregate(Avg('ab_delay'))
+        try:
+            avg_all = datetime.fromtimestamp(avg_all['ab_delay__avg'])
+        except:
+            avg_all = 0
+
+        # Average delay for same day of the week
+        avg_day = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).filter(betriebstag__week_day=next_train.weekday()+2).aggregate(Avg('ab_delay'))
+        try:
+            avg_day = datetime.fromtimestamp(avg_day['ab_delay__avg'])
+        except:
+            avg_day = 0
+
+        # Save dictionary
+        context["average"] = {"avg_day": avg_day, "avg_all": avg_all}
 
         return context
