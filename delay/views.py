@@ -11,7 +11,9 @@ class DelayList(ListView):
     def get_queryset(self):
         next_trains = sbbtrip()
         next_train = next_trains["trip1"]["dep"]
-        return Train.objects.order_by("-betriebstag").filter(abfahrtszeit__contains=next_train.time())
+        prev_trains = Train.objects.order_by("-betriebstag").filter(abfahrtszeit__contains=next_train.time())
+        return prev_trains
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) #Call base implementation first to get a context
@@ -21,14 +23,14 @@ class DelayList(ListView):
         # Average delay
         avg_all = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).aggregate(Avg('ab_delay'))
         try:
-            avg_all = datetime.fromtimestamp(avg_all['ab_delay__avg'])
+            avg_all = datetime.fromtimestamp(avg_all["ab_delay__avg"])
         except:
             avg_all = 0
 
         # Average delay for same day of the week
         avg_day = Train.objects.all().filter(abfahrtszeit__contains=next_train.time()).filter(betriebstag__week_day=next_train.weekday()+2).aggregate(Avg('ab_delay'))
         try:
-            avg_day = datetime.fromtimestamp(avg_day['ab_delay__avg'])
+            avg_day = datetime.fromtimestamp(avg_day["ab_delay__avg"])
         except:
             avg_day = 0
 

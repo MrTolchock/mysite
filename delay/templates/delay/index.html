@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load timefilter %}
+
 <h3>Wiedikon to Oerlikon</h3>
 <p>&nbsp;</p>
 <h5>Next trains</h5>
@@ -9,7 +11,7 @@
 <table>
   <tr>
     <th width=100>Departure</th>
-    <th width=90>Delay</th>
+    <th width=80>Delay</th>
     <th width=70>Train</th>
   </tr>
 
@@ -17,7 +19,7 @@
     <tbody>
         <tr>
           <td>{{trip.dep|date:"H:i"}}</td>
-          <td>{{trip.dep_delay}}</td>
+          <td>{{trip.dep_delay|td_to_minsecs}}</td>
           <td>{{trip.line}}</td>
         </tr>
     </tbody>
@@ -26,20 +28,20 @@
 
 <p>&nbsp;</p>
 
-<h5>History</h5>
+<h5>Statistics for next train</h5>
 
 <table>
   <tr>
-    <th>Average</th>
+    <th width=140>Average</th>
   </tr>
   <tbody>
       <tr>
-        <td>All days:</td>
-        <td>{{average.avg_all|date:"i:s"}}</td>
-      </tr>
-      <tr>
         <td>Same week day:</td>
         <td>{{average.avg_day|date:"i:s"}}</td>
+      </tr>
+      <tr>
+        <td>All days:</td>
+        <td>{{average.avg_all|date:"i:s"}}</td>
       </tr>
   </tbody>
 
@@ -50,16 +52,16 @@
 <table>
     <tr>
         <th width=100>Departure</th>
-        <th width=90>Delay</th>
+        <th width=80>Delay</th>
         <th width=70>Train</th>
         <th width=200>Date</th>
     </tr>
     {% for item in object_list %}
     <tr>
         <td>{{ item.abfahrtszeit|date:"H:i" }}</td>
-        <td>{{ item.ab_delay }}</td>
+        <td>{{ item.ab_delay|secs_to_minsecs }}</td>
         <td>{{ item.linien_text }}</td>
-        <td>{{ item.abfahrtszeit|date:"D, d.m.Y" }} </td>
+        <td>{{ item.abfahrtszeit|date:"D, d.m.y" }} </td>
     </tr>
     {% endfor %}
 </table>
