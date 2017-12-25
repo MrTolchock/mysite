@@ -5,5 +5,6 @@ from .views import DelayList
 
 
 urlpatterns = [
-    path("", DelayList.as_view()),
+    path("", DelayList.as_view(template_name = "delay/index.html")),
+    path("chart", DelayList.as_view(template_name = "delay/chart.html")),
 ]
