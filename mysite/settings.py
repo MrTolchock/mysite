@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "personal",
     "delay",
     "fitness",
+    "adminsortable",
 ]
 
 MIDDLEWARE = [

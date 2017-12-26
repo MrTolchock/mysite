@@ -1,6 +1,7 @@
 from django.db import models
+from adminsortable.models import SortableMixin
 
-class Exercise(models.Model):
+class Exercise(SortableMixin):
     title = models.CharField(max_length=100)
     text = models.TextField()
     speed = models.DecimalField(max_digits=4, decimal_places=2)
@@ -8,37 +9,29 @@ class Exercise(models.Model):
     media_file = models.FileField(upload_to='fitness')
     in_prog = models.BooleanField()
 
+    # Use https://github.com/alsoicode/django-admin-sortable for sorting
+    class Meta:
+        verbose_name = 'Exercise'
+        verbose_name_plural = 'Exercises'
+        ordering = ['order']
+
+    order = models.PositiveIntegerField(default=0, editable=False, db_index=True)
+
     # Show title in admin page
     def __str__(self):
         return self.title
 
-    #Get the next object by primary key order
-    def get_next(self):
-        next = self.__class__.objects.filter(pk__gt=self.pk)
-        try:
-            return next[0]
-        except IndexError:
-            return False
-
-    #Get the previous object by primary key order
-    def get_prev(self):
-        prev = self.__class__.objects.filter(pk__lt=self.pk).order_by('-pk')
-        try:
-            return prev[0]
-        except IndexError:
-            return False
-
-    #Get next programme object
+    # Get next programme object
     def prog_next(self):
-        next = self.__class__.objects.filter(in_prog=True).filter(pk__gt=self.pk)
+        next = self.__class__.objects.filter(in_prog=True).filter(order__gt=self.order)
         try:
             return next[0]
         except IndexError:
             return False
 
-    #Get prev programme object
+    # Get prev programme object
     def prog_prev(self):
-        prev = self.__class__.objects.filter(in_prog=True).filter(pk__lt=self.pk).order_by('-pk')
+        prev = self.__class__.objects.filter(in_prog=True).filter(order__lt=self.order).order_by('-order')
         try:
             return prev[0]
         except IndexError:
