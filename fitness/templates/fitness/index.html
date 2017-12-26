@@ -1,0 +1,25 @@
+{% extends "personal/header.html" %}
+
+{% block content %}
+
+<h3>Training Programmes</h3>
+
+<p><a href="/fitness/prog/1">Programme</a></p>
+
+<p>&nbsp;</p>
+
+<h3>All Exercises</h3>
+
+<p>&nbsp;</p>
+
+  {% for exercise in object_list %}
+    <p><a href="/fitness/{{ exercise.id }}">{{ exercise.title }}</a></p>
+  {% endfor %}
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
+
+{% endblock %}

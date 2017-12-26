@@ -1,0 +1,58 @@
+{% extends "personal/header.html" %}
+
+{% block content %}
+
+<!--Define Javascript for video-->
+<script>
+window.onload = function () {
+  'use strict';
+
+  // Set playback rate
+  var video = document.getElementById("VideoElement");
+
+  video.onplay = function(event) {
+    video.playbackRate = {{exercise.speed}};
+  };
+
+  // Set number of iterations
+  var iterations = {{exercise.repetitions}}-1;
+  document.getElementById('iteration').innerText = iterations;
+
+  video.onended = function() {
+    if (iterations > 0) {
+      this.currentTime = 0;
+      this.play();
+      iterations --;
+
+      document.getElementById('iteration').innerText = iterations;
+    } else {
+      window.location.href = "/fitness/prog/{{exercise.prog_next.id}}";
+    }
+  };
+};
+</script>
+
+<!--Define body-->
+<h3>{{exercise.title}}</h3>
+<p>&nbsp;</p>
+
+<div>Repetitions left: <span id="iteration"></span></div>
+
+<video id="VideoElement" width="200" height="160" onclick="this.paused ? this.play() : this.pause();" autoplay>
+  <source src="{{exercise.media_file.url}}"  type="video/mp4" />
+</video>
+
+<p>&nbsp;</p>
+{{exercise.text|safe|linebreaks}}
+
+<p>&nbsp;</p>
+
+<p><a href="/fitness/prog/{{exercise.prog_prev.id}}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/fitness/prog/{{exercise.prog_next.id}}">Next</a></p>
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
+
+{% endblock %}

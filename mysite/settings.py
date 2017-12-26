@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "personal",
     "delay",
+    "fitness",
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = "/home/MrTolchock/mysite/personal/static"
+
+MEDIA_URL = "/static/media/"
+MEDIA_ROOT = "personal/static/media"
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
