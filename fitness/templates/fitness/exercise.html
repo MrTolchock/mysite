@@ -2,28 +2,16 @@
 
 {% block content %}
 
-<!--Define Javascript for video-->
-<script>
-window.onload = function () {
-  'use strict';
 
-  var video = document.getElementById("VideoElement");
-
-  // Set playback rate
-  video.onplay = function(event) {
-    video.playbackRate = {{exercise.speed}};
-  };
-};
-</script>
 
 <!--Define body-->
 <h5>{{exercise.title}}</h5>
 
 <p>&nbsp;</p>
 
-<video id="VideoElement" width="200" height="160" onclick="this.paused ? this.play() : this.pause();" autoplay loop>
-  <source src="{{exercise.media_file.url}}"  type="video/mp4" />
+<video id="VideoElement" width="200" height="160" muted controls src="{{exercise.media_file.url}}"  type="video/mp4" />
 </video>
+
 
 <p>&nbsp;</p>
 {{exercise.text|safe|linebreaks}}
