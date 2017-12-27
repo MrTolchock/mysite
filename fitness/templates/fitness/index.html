@@ -2,20 +2,36 @@
 
 {% block content %}
 
-<h5>Training Programmes</h5>
+<h5>Exercises</h5>
 
-<p><a href="/fitness/prog/{{first.prog_first}}">Programme</a></p>
+<p><a href="/fitness/prog/{{first.prog_first}}"> Start Programme</a></p>
 
-<p>&nbsp;</p>
+<br />
 
-<h5>All Exercises</h5>
+<b>Exercises in programme</b>
+<table>
+  {% for exercise in object_list %}
+    {% if exercise.in_prog == True %}
+      <tr>
+        <td width=40 align=right style="padding-right: 10px">{{ exercise.order }}.</td>
+        <td><a href="/fitness/{{ exercise.order }}">{{ exercise.title }}</a></td>
+      </tr>
+    {% endif %}
+  {% endfor %}
+</table>
+<br />
 
-<p>&nbsp;</p>
-
-{% for exercise in object_list %}
-  <p><a href="/fitness/{{ exercise.order }}">{{ exercise.title }}</a></p>
-{% endfor %}
-
+<b>Exercises not in programme</b>
+<table>
+  {% for exercise in object_list %}
+    {% if exercise.in_prog == False %}
+      <tr>
+        <td width=40 align=right style="padding-right: 10px">{{ exercise.order }}.</td>
+        <td><a href="/fitness/{{ exercise.order }}">{{ exercise.title }}</a></td>
+      </tr>
+    {% endif %}
+  {% endfor %}
+</table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>

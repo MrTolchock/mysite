@@ -7,21 +7,19 @@
 <!--Define body-->
 <h5>{{exercise.title}}</h5>
 
-<p>&nbsp;</p>
+<br />
 
 <video id="VideoElement" width="200" height="160" muted controls src="{{exercise.media_file.url}}"  type="video/mp4" />
 </video>
 
 
-<p>&nbsp;</p>
+<br />
 {{exercise.text|safe|linebreaks}}
-
-<p>&nbsp;</p>
+<br />
 
 <p><a href="/fitness/{{exercise.get_prev.order}}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/fitness/{{exercise.get_next.order}}">Next</a></p>
 
 
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
 
 {% endblock %}

@@ -34,7 +34,7 @@ window.onload = function () {
 
 <!--Define body-->
 <h3>{{exercise.title}}</h3>
-<p>&nbsp;</p>
+<br />
 
 <div>Repetitions left: <span id="iteration"></span></div>
 
@@ -42,15 +42,13 @@ window.onload = function () {
   <source src="{{exercise.media_file.url}}"  type="video/mp4" />
 </video>
 
-<p>&nbsp;</p>
+<br />
 {{exercise.text|safe|linebreaks}}
 
-<p>&nbsp;</p>
+<br />
 
 <p><a href="/fitness/prog/{{exercise.prog_prev.order}}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/fitness/prog/{{exercise.prog_next.order}}">Next</a></p>
 
-
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+<br />
 
 {% endblock %}
