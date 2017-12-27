@@ -7,36 +7,19 @@
 window.onload = function () {
   'use strict';
 
-  // Set playback rate
   var video = document.getElementById("VideoElement");
 
+  // Set playback rate
   video.onplay = function(event) {
     video.playbackRate = {{exercise.speed}};
   };
-
-  // // Set number of iterations
-  // var iterations = {{exercise.repetitions}}-1;
-  // document.getElementById('iteration').innerText = iterations;
-  //
-  // video.onended = function() {
-  //   if (iterations > 0) {
-  //     this.currentTime = 0;
-  //     this.play();
-  //     iterations --;
-  //
-  //     document.getElementById('iteration').innerText = iterations;
-  //   } else {
-  //     window.location.href = "/fitness/{{exercise.get_next.id}}";
-  //   }
-  // };
 };
 </script>
 
 <!--Define body-->
-<h3>{{exercise.title}}</h3>
-<p>&nbsp;</p>
+<h5>{{exercise.title}}</h5>
 
-<!-- <div>Repetitions left: <span id="iteration"></span></div> -->
+<p>&nbsp;</p>
 
 <video id="VideoElement" width="200" height="160" onclick="this.paused ? this.play() : this.pause();" autoplay loop>
   <source src="{{exercise.media_file.url}}"  type="video/mp4" />

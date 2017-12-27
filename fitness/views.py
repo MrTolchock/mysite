@@ -13,3 +13,9 @@ class ProgDetail(DetailView):
 
 class ExerciseList(ListView):
     queryset=Exercise.objects.all()
+
+    def get_context_data(self, **kwargs):
+         context = super().get_context_data(**kwargs)
+         prog_first = Exercise.objects.filter(in_prog=True).first()
+         context['first'] = {"prog_first": prog_first.order}
+         return context

@@ -7,19 +7,19 @@
 window.onload = function () {
   'use strict';
 
-  // Set playback rate
   var video = document.getElementById("VideoElement");
 
+  // Set playback rate
   video.onplay = function(event) {
     video.playbackRate = {{exercise.speed}};
   };
 
   // Set number of iterations
-  var iterations = {{exercise.repetitions}}-1;
+  var iterations = {{exercise.repetitions}};
   document.getElementById('iteration').innerText = iterations;
 
   video.onended = function() {
-    if (iterations > 0) {
+    if (iterations > 1) {
       this.currentTime = 0;
       this.play();
       iterations --;
