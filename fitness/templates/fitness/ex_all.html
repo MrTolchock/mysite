@@ -1,0 +1,33 @@
+{% extends "personal/header.html" %}
+
+{% block content %}
+
+
+
+<!--Define body-->
+<h5>{{exercise.title}}</h5>
+
+<br />
+
+<video id="VideoElement" width="200" height="160" muted controls src="{{exercise.media_file.url}}"  type="video/mp4" />
+</video>
+
+
+<br />
+{{exercise.text|safe|linebreaks}}
+<br />
+
+<p>
+{% if exercise.in_prog == True %}
+  <a href="/fitness/{{exercise.prog_prev.order}}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/fitness/{{exercise.prog_next.order}}">Next</a>
+
+{% elif exercise.in_prog == False %}
+  <a href="/fitness/{{exercise.notprog_prev.order}}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/fitness/{{exercise.notprog_next.order}}">Next</a>
+
+{% endif %}
+</p>
+
+
+<br />
+
+{% endblock %}

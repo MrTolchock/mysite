@@ -21,7 +21,7 @@ class Exercise(SortableMixin):
     def __str__(self):
         return self.title
 
-    # Get next programme object
+    # Get next in_prog
     def prog_next(self):
         next = self.__class__.objects.filter(in_prog=True).filter(order__gt=self.order)
         try:
@@ -29,9 +29,25 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get prev programme object
+    # Get prev in_prog
     def prog_prev(self):
         prev = self.__class__.objects.filter(in_prog=True).filter(order__lt=self.order).order_by('-order')
+        try:
+            return prev[0]
+        except IndexError:
+            return False
+
+    # Get next not in_prog
+    def notprog_next(self):
+        next = self.__class__.objects.filter(in_prog=False).filter(order__gt=self.order)
+        try:
+            return next[0]
+        except IndexError:
+            return False
+
+    # Get prev not in_prog
+    def notprog_prev(self):
+        prev = self.__class__.objects.filter(in_prog=False).filter(order__lt=self.order).order_by('-order')
         try:
             return prev[0]
         except IndexError:
