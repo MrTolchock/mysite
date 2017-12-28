@@ -77,12 +77,17 @@ for train in js["records"]:
 
     # Calculate delay
     try:
-        ab_delay = info[9] - info[8]
-        info.append(int(ab_delay.total_seconds()))
+        if info[9] is None or info[8] is None:
+            ab_delay = None
+            print("Input <", info[9], "-", info[8], "> could not be computed. Delay left empty.")
+        else:
+            ab_diff = info[9] - info[8]
+            ab_delay = int(ab_diff.total_seconds())
     except:
         ab_delay = None
-        print("Delay turned to None")
-        info.append(ab_delay)
+        print("Input <", info[9], "-", info[8], "> could not be computed. Delay left empty.")
+
+    info.append(ab_delay)
 
 
     # Create unique ID as an integer

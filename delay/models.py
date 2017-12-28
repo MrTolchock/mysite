@@ -7,15 +7,12 @@ class Train(models.Model):
     haltestellen_name = models.CharField(max_length=50)
     linien_text = models.CharField(max_length=20)
     betriebstag = models.DateTimeField()
-    ankunftszeit = models.DateTimeField()
+    ankunftszeit = models.DateTimeField(null=True)
     an_prognose = models.DateTimeField(null=True)
-    an_prognose_status = models.CharField(max_length=20)
-    abfahrtszeit = models.DateTimeField()
+    an_prognose_status = models.CharField(max_length=20, null=True)
+    abfahrtszeit = models.DateTimeField(null=True)
     ab_prognose = models.DateTimeField(null=True)
-    ab_prognose_status = models.CharField(max_length=20)
+    ab_prognose_status = models.CharField(max_length=20, null=True)
     faellt_aus_tf = models.IntegerField()
-    ab_delay = models.IntegerField()
+    ab_delay = models.IntegerField(null=True)
     uid = models.IntegerField(primary_key=True)
-
-    # def __str__(self):
-    #     return self.fahrt_bezeichner#title
