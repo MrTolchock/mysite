@@ -2,39 +2,33 @@
 
 {% block content %}
 
-<h5>Exercises</h5>
+<h5>Programme</h5>
+<br>
+<button type="button" class="btn btn-outline-dark" onclick="window.location.href='/fitness/prog/{{first.prog_first}}'">Start Programme</button>
 
-<p><a href="/fitness/prog/{{first.prog_first}}"> Start Programme</a></p>
+<br><br><br>
 
-<br />
-
-<b>Exercises in programme</b>
-<table>
+<h5>Exercises in Programme</h5>
+<div class="list-group">
   {% for exercise in object_list %}
     {% if exercise.in_prog == True %}
-      <tr>
-        <td width=40 align=right style="padding-right: 10px">{{ exercise.order }}.</td>
-        <td><a href="/fitness/{{ exercise.order }}">{{ exercise.title }}</a></td>
-      </tr>
+      <a href="/fitness/{{ exercise.order }}" class="list-group-item list-group-item-action">{{ exercise.title }}</a>
     {% endif %}
   {% endfor %}
-</table>
-<br />
+</div>
 
-<b>Exercises not in programme</b>
-<table>
+<br><br>
+
+<h5>Exercises not in Programme</h5>
+<div class="list-group">
   {% for exercise in object_list %}
     {% if exercise.in_prog == False %}
-      <tr>
-        <td width=40 align=right style="padding-right: 10px">{{ exercise.order }}.</td>
-        <td><a href="/fitness/{{ exercise.order }}">{{ exercise.title }}</a></td>
-      </tr>
+      <a href="/fitness/{{ exercise.order }}" class="list-group-item list-group-item-action">{{ exercise.title }}</a>
     {% endif %}
   {% endfor %}
-</table>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
+</div>
+
+
 <!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
 
 {% endblock %}
