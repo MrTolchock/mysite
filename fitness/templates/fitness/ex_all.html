@@ -5,8 +5,19 @@
 <h5>{{exercise.title}}</h5>
 <br>
 
-<video id="VideoElement" width="200" height="160" muted controls src="{{exercise.media_file.url}}"  type="video/mp4">
+<!-- <video id="VideoElement" width="200" height="160" muted controls src="{{exercise.media_file.url}}"  type="video/mp4">
+</video> -->
+
+<video id="video" width="200" height="160" preload="" controls="">
+  <source src="https://www.pythonanywhere.com/user/MrTolchock/files/home/MrTolchock/mysite/static/media/fitness/pr6.mp4">
+  <object width="200" height="160" type="application/x-shockwave-flash" data="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf">
+    <param name="movie" value="http://releases.flowplayer.org/swf/flowplayer-3.2.1.swf">
+    <param name="allowfullscreen" value="true">
+    <param name="flashvars" value="config={'clip':{'url':'http://diveintohtml5.info/i/pr6.mp4','autoPlay':false,'autoBuffering':true}}">
+    <p>Download video as <a href="{{exercise.media_file.url}}">MP4</a></p>
+  </object>
 </video>
+
 
 <br>
 <p>{{exercise.text|safe|linebreaks}}</p>
