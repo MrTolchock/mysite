@@ -38,15 +38,6 @@ class DelayList(ListView):
         except:
             avg_day = 0
 
-        # Prepare chart data
-        # chart_day = next_train
-        # i = 1
-        #
-        # while i < 7:
-        #     chart_day = chart_day - timedelta(days=i)
-        #     chart = relevant_trains.get(betriebstag=chart_day)
-        #     i = i + 1
-
         # Save dictionary
         context["average"] = {"avg_day": avg_day, "avg_all": avg_all}
         # context["chart"] = {"chart": chart}
