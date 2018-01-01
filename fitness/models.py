@@ -1,5 +1,6 @@
 from django.db import models
 from adminsortable.models import SortableMixin
+from django.db.models import Sum
 
 class Exercise(SortableMixin):
     title = models.CharField(max_length=100)
@@ -21,7 +22,7 @@ class Exercise(SortableMixin):
     def __str__(self):
         return self.title
 
-    # Get next in_prog
+    # Get next/prev in_prog
     def prog_next(self):
         next = self.__class__.objects.filter(in_prog=True).filter(order__gt=self.order)
         try:
@@ -29,7 +30,6 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get prev in_prog
     def prog_prev(self):
         prev = self.__class__.objects.filter(in_prog=True).filter(order__lt=self.order).order_by('-order')
         try:
@@ -37,7 +37,7 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get next NOT in_prog
+    # Get next/prev NOT in_prog
     def notprog_next(self):
         next = self.__class__.objects.filter(in_prog=False).filter(order__gt=self.order)
         try:
@@ -45,10 +45,24 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get prev NOT in_prog
     def notprog_prev(self):
         prev = self.__class__.objects.filter(in_prog=False).filter(order__lt=self.order).order_by('-order')
         try:
             return prev[0]
+        except IndexError:
+            return False
+
+    # Position of current exercises in programme
+    def prog_pos(self):
+        #self.__class__.objects.filter(in_prog=True).filter(order__lt=self.order).count()
+        done = self.__class__.objects.filter(in_prog=True).filter(order__lt=self.order).aggregate(Sum('repetitions'))
+        all = Exercise.objects.filter(in_prog=True).aggregate(Sum('repetitions'))
+        if done['repetitions__sum'] is None:
+            progress = 0
+        else:
+            progress = done['repetitions__sum'] / all['repetitions__sum'] * 100
+
+        try:
+            return progress
         except IndexError:
             return False

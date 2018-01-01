@@ -8,23 +8,32 @@ window.onload = function () {
   'use strict';
 
   var video = document.getElementById("VideoElement");
+  var progbar = document.getElementById("ProgBar");
 
   // Set playback rate
   video.onplay = function(event) {
     video.playbackRate = {{exercise.speed}};
   };
 
-  // Set number of iterations
+  // Set number of iterations/progress bar
   var iterations = {{exercise.repetitions}};
   document.getElementById('iteration').innerText = iterations;
+
+  var progress = {{exercise.prog_pos}};
+  var progstep = {{context.prog_all}};
+  progbar.style.width = progress + '%';
 
   video.onended = function() {
     if (iterations > 1) {
       this.currentTime = 0;
       this.play();
       iterations --;
-
       document.getElementById('iteration').innerText = iterations;
+
+      progress = progress + (1 / progstep) * 100;
+      //document.getElementById('progress').innerText = progress;
+      progbar.style.width = progress + '%';
+
     } else {
       window.location.href = "/fitness/prog/{{exercise.prog_next.order}}";
     }
@@ -34,7 +43,7 @@ window.onload = function () {
 
 <!--Define body-->
 <div class="progress">
-  <div class="progress-bar" style="width:70%">70%</div>
+  <div class="progress-bar" id="ProgBar" name="progress"></div>
 </div>
 
 <br>
@@ -50,7 +59,6 @@ window.onload = function () {
   </tbody>
 </table>
 
-
 <br>
 <p>{{exercise.text|safe|linebreaks}}</p>
 <br>
@@ -59,5 +67,7 @@ window.onload = function () {
   <li class="page-item"><a class="page-link text-dark" href="/fitness/prog/{{exercise.prog_prev.order}}">Previous</a></li>
   <li class="page-item"><a class="page-link text-dark" href="/fitness/prog/{{exercise.prog_next.order}}">Next</a></li>
 </ul>
+
+<!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
 
 {% endblock %}
