@@ -37,7 +37,7 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get next not in_prog
+    # Get next NOT in_prog
     def notprog_next(self):
         next = self.__class__.objects.filter(in_prog=False).filter(order__gt=self.order)
         try:
@@ -45,7 +45,7 @@ class Exercise(SortableMixin):
         except IndexError:
             return False
 
-    # Get prev not in_prog
+    # Get prev NOT in_prog
     def notprog_prev(self):
         prev = self.__class__.objects.filter(in_prog=False).filter(order__lt=self.order).order_by('-order')
         try:

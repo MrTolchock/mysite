@@ -22,7 +22,7 @@ window.onload = function () {
 
 <!-- onclick="this.paused ? this.play() : this.pause();" -->
 
-<video id="VideoElement" width="200" height="160" controls muted loop playsinline src="https://github.com/MrTolchock/mysite/blob/master{{exercise.media_file.url}}?raw=true"  type="video/mp4">
+<video id="VideoElement" width="300" height="240" controls muted loop playsinline src="https://github.com/MrTolchock/mysite/blob/master{{exercise.media_file.url}}?raw=true"  type="video/mp4">
 </video>
 
 <br>
@@ -30,13 +30,13 @@ window.onload = function () {
 <br>
 
 {% if exercise.in_prog == True %}
-  <ul class="pagination pagination-sm">
+  <ul class="pagination">
     <li class="page-item"><a class="page-link text-dark" href="/fitness/{{exercise.prog_prev.order}}">Previous</a></li>
     <li class="page-item"><a class="page-link text-dark" href="/fitness/{{exercise.prog_next.order}}">Next</a></li>
   </ul>
 
 {% elif exercise.in_prog == False %}
-<ul class="pagination pagination-sm">
+<ul class="pagination">
   <li class="page-item"><a class="page-link text-dark" href="/fitness/{{exercise.notprog_prev.order}}">Previous</a></li>
   <li class="page-item"><a class="page-link text-dark" href="/fitness/{{exercise.notprog_next.order}}">Next</a></li>
 </ul>
