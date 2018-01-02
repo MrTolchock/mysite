@@ -113,7 +113,7 @@ def sbbtrip():
                 count = count + 1
                 tripdic["trip"+str(count)] = element
 
-    print(tripdic)
+    #print(tripdic)
 
     return tripdic
 
