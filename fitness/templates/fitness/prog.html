@@ -15,6 +15,22 @@ window.onload = function () {
     video.playbackRate = {{exercise.speed}};
   };
 
+  // Play video after 5s and timer
+  setTimeout(function(){
+    video.play();
+  }, 5000);
+
+  var seconds_left = 5;
+  document.getElementById('timer_div').innerHTML = "Start in " + seconds_left + " ...";
+
+  var interval = setInterval(function() {
+    document.getElementById('timer_div').innerHTML = "Start in " + --seconds_left + " ...";
+    if (seconds_left <= 0) {
+      document.getElementById('timer_div').innerHTML = "";
+      clearInterval(interval);
+    }
+  }, 1000);
+
   // Set number of iterations/progress bar
   var iterations = {{exercise.repetitions}};
   document.getElementById('iteration').innerText = iterations;
@@ -31,7 +47,6 @@ window.onload = function () {
       document.getElementById('iteration').innerText = iterations;
 
       progress = progress + (1 / progstep) * 100;
-      //document.getElementById('progress').innerText = progress;
       progbar.style.width = progress + '%';
 
     } else {
@@ -52,12 +67,19 @@ window.onload = function () {
 <table>
   <tbody>
     <tr>
-      <td><video id="VideoElement" width="300" height="240" controls muted playsinline src="https://github.com/MrTolchock/mysite/blob/master{{exercise.media_file.url}}?raw=true"  type="video/mp4">
-      </video></td>
-      <td align="center" width="200"><span id="iteration" style="font-size:100px"></span><br>repetitions left</td>
+      <td>
+        <video id="VideoElement" width="300" height="240" controls muted playsinline src="https://github.com/MrTolchock/mysite/blob/master{{exercise.media_file.url}}?raw=true"  type="video/mp4">
+        </video>
+    </td>
+      <td align="center" width="200">
+        <span id="timer_div"></span><br>
+        <span id="iteration" style="font-size:100px"></span><br>
+        repetitions left
+      </td>
     </tr>
   </tbody>
 </table>
+
 
 <br>
 <p>{{exercise.text|safe|linebreaks}}</p>
@@ -67,7 +89,6 @@ window.onload = function () {
   <li class="page-item"><a class="page-link text-dark" href="/fitness/prog/{{exercise.prog_prev.order}}">Previous</a></li>
   <li class="page-item"><a class="page-link text-dark" href="/fitness/prog/{{exercise.prog_next.order}}">Next</a></li>
 </ul>
-
 <!-- <pre> {% filter force_escape %} {% debug %} {% endfilter %} </pre> -->
 
 {% endblock %}
