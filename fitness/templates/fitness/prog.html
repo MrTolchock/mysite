@@ -15,11 +15,7 @@ window.onload = function () {
     video.playbackRate = {{exercise.speed}};
   };
 
-  // Play video after 10s and timer
-  setTimeout(function(){
-    video.play();
-  }, 10000); //set delay here
-
+  // Play video after 10s
   var seconds_left = 10;
   document.getElementById('timer_div').innerHTML = "Start in " + seconds_left + " ...";
 
@@ -27,11 +23,13 @@ window.onload = function () {
     document.getElementById('timer_div').innerHTML = "Start in " + --seconds_left + " ...";
     if (seconds_left <= 0) {
       document.getElementById('timer_div').innerHTML = "";
+      video.play();
       clearInterval(interval);
     }
   }, 1000);
 
-  // Set number of iterations/progress bar
+  // Set number of iterations, progress bar and hold time
+  var hold_time = {{exercise.hold_position}} * 1000;
   var iterations = {{exercise.repetitions}};
   document.getElementById('iteration').innerText = iterations;
 
@@ -40,9 +38,12 @@ window.onload = function () {
   progbar.style.width = progress + '%';
 
   video.onended = function() {
+    setTimeout(function(){
     if (iterations > 1) {
-      this.currentTime = 0;
-      this.play();
+      //setTimeout(function(){
+        video.currentTime = 0;
+        video.play();
+      //}, hold_time);
       iterations --;
       document.getElementById('iteration').innerText = iterations;
 
@@ -52,6 +53,7 @@ window.onload = function () {
     } else {
       window.location.href = "/fitness/prog/{{exercise.prog_next.order}}";
     }
+    }, hold_time);
   };
 };
 </script>

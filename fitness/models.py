@@ -7,6 +7,7 @@ class Exercise(SortableMixin):
     text = models.TextField()
     speed = models.DecimalField(max_digits=4, decimal_places=2)
     repetitions = models.IntegerField()
+    hold_position = models.IntegerField()
     media_file = models.FileField(upload_to='fitness')
     in_prog = models.BooleanField()
 
