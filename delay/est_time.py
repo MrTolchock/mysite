@@ -5,7 +5,7 @@ def sbbtrip():
     from datetime import datetime, timedelta
     from pytz import timezone
     import xml.dom.minidom
-    #8503011 stands for Zuerich Wiedikon, 8503006 for Oerlikon
+    #8503011 stands for Zuerich Wiedikon, 8503006 for Oerlikons
     #API key: 57c5dbbbf1fe4d000100001810cb98403acc476a9ef255a0dfac27da
     #Doumentation: https://opentransportdata.swiss/de/cookbook/triprequest/
 
