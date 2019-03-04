@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'mrtolchock.pythonanywhere.com',
     '127.0.0.1',
+    '34.73.67.196',
 ]
 
 
