@@ -107,7 +107,7 @@ def sbbtrip():
     tripdic = dict()
     #now = datetime.now().astimezone(timezone("Europe/Zurich"))
     now = datetime.now()
-    now = now.replace(tzinfo="Europe/Zurich")
+    now = now.replace(tzinfo=timezone("Europe/Zurich"))
 
     for element in trips:
         if element["dep_est"] >= now - timedelta(minutes=1):
